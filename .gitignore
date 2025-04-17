@@ -3,3 +3,7 @@ node_modules
 
 # Vitepress cache
 docs/.vitepress/cache
+
+.vscode
+
+.vitepress/cache
