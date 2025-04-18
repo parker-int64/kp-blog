@@ -15,6 +15,8 @@ const productName = ref("")
 watch(cSuffix, (newValue) => {
   if (newValue !== "" ) {
     pSuffix.value = `-${newValue}`
+  } else {
+    pSuffix.value = ""
   }
 })
 
@@ -199,11 +201,18 @@ Select the name you preferred for your customize carrier boards.
   <p>.conf</p>
 </div>
 
-Output:
++ Output for JetPack 6.x:
 
 ```js-vue
 {{ cBoardName }}-{{ cBoardRev }}-{{ selectedModule }}{{ pSuffix }}.conf
 ```
+
++ Output for JetPack 5.x
+
+```js-vue
+{{ cBoardName }}-{{ cBoardRev }}+{{ selectedModule }}{{ pSuffix }}.conf
+```
+
 + Preferred product name.
 
 <input
@@ -219,8 +228,23 @@ Output:
 
 Create the symbolic link:
 
++ Again, for JetPack 6.x
 ```js-vue
 ln -sf {{ cBoardName }}-{{ cBoardRev }}-{{ selectedModule }}{{ pSuffix }}.conf {{ productName }}.conf 
 ```
 
++ For JetPack 5.x
+```js-vue
+ln -sf {{ cBoardName }}-{{ cBoardRev }}+{{ selectedModule }}{{ pSuffix }}.conf {{ productName }}.conf 
+```
+
+
 ## Device Tree Overlay Naming
+
+Under the directory `<Linux_for_Tegra>/bootloader`, you will find some `dtsi` and `dts` files. These are the "source files" of the device tree.
+
+Under the directory `<Linux_for_Tegra>/kernel/dtb`, there are `dtbo` and `dtb` files, which are "device tree blob overlay" and device "tree blob" files.
+
+For more information, refer to [Device Tree Specifications](https://devicetree-specification.readthedocs.io/en/stable/introduction.html)
+
+
