@@ -10,7 +10,7 @@ Build with vitepress.
 + Clone the documentations
 
 ``` sh
-$ git clone https://github.com/parker-int64/kp-blog
+$ git clone https://github.com/parker-int64/kp-blog.git
 ```
 
 + Install dependencies

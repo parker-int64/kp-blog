@@ -28,6 +28,15 @@ const members = [
       { icon: 'bilibili', link: 'https://space.bilibili.com/628398326'}
     ]
   },
+
+  {
+    avatar: 'https://github.com/grilliiiiii.png',
+    name: 'grilliiiiii',
+    title: 'Co-create, Maintainer',
+    links: [
+      { icon: 'github', link: 'https://github.com/grilliiiiii' },
+    ]
+  },
 ]
 </script>
 
