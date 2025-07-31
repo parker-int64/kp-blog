@@ -23,10 +23,11 @@ $ npm install
 + Run docs locally
 
 ``` sh
-npm run docs:dev
+$ npm run docs:dev
 ```
 
 + Launch your browser and access 
 
+``` txt
 http://localhost:5173/
-
+```
