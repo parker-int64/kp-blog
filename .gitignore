@@ -1,9 +1,13 @@
+.DS_Store
 # node modules
 node_modules
 
 # Vitepress cache
 docs/.vitepress/cache
 
+
+# Vitepress dist
+docs/.vitepress/dist
+
 .vscode
 
-.vitepress/cache

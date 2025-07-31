@@ -1,4 +1,5 @@
 ---
+ssr: false
 layout: home
 
 hero:
@@ -17,25 +18,25 @@ hero:
       link: https://github.com/parker-int64/kp-blog
 ---
 
+
+<div class="image-container"></div>
+
 <script setup>
 import { ref, onMounted, h, render } from 'vue'
-import { Vue3Lottie } from 'vue3-lottie'
-import Assistant from '/src/assistant-animation.json'
 
-const placeholder = ref(null)
+onMounted(async () => {
+  const { Vue3Lottie } = await import('vue3-lottie')
+  const Assistant = await import('/src/assistant-animation.json')
 
-onMounted(() => {
   const target = document.querySelector('.image-container')
   if (target && target.parentNode) {
     const parent = target.parentNode
 
-    // create node
     const mountDiv = document.createElement('div')
     parent.replaceChild(mountDiv, target)
 
-    // create vnode
     const vnode = h(Vue3Lottie, {
-      animationData: Assistant,
+      animationData: Assistant.default,
       height: 200,
       width: 200
     })
@@ -44,7 +45,6 @@ onMounted(() => {
   }
 })
 </script>
-
 <template>
   <div ref="placeholder" class="w-48 h-48" style="display: none;"></div>
 </template>
@@ -56,9 +56,26 @@ onMounted(() => {
 Check here for my first blog:
 
 
-[Install TensorFlow Lite on Raspberry Pi](./Instsall-TensorFlow-Lite-On-RPi.md)
-<!-- [Install LiteRT on Raspberry Pi](./Install-LiteRT-On-RPi.md)  -->
+[Install TensorFlow Lite on Raspberry Pi](./Install-TensorFlow-Lite-on-RPi.md)
+
+[Install LiteRT on Raspberry Pi](./Install-LiteRT-on-RPi.md) 
 
 [Jetson Naming Conventions](./Jetson-Naming-Conventions.md)
 
 [Jetson Backup and Restore](./Jetson-Backup-and-Restore.md)
+
+[Flash JetPack with WSL2](./Flash-Jetpack-wsl2.md)
+
+[Flash with PCN Merge](./Flash-with-PCN-Merge.md)
+
+[Jetson Build PyTorch](./Jetson-Build-Pytorch.md)
+
+[Jetson Build Torchvision](./Jetson-Build-Torchvision.md)
+
+[Jetson Build Open3D](./Jetson-Build-Open3D.md)
+
+[Jetson Build PCL (Point Cloud Library)](./Jetson-Build-PCL.md)
+
+[Jetson Build Librealsense](./Jetson-Build-Librealsense.md)
+
+[Jetson安装中文语言包和中文输入法](./Jetson安装中文输入法.md)

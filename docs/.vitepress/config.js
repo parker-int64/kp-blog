@@ -15,12 +15,13 @@ export default {
             {
                 text: 'Guide',
                 items: [
-                    { text: "LiteRT on Raspberry Pi", link: '/Install-LiteRT-on-RPi' },
-                    { text: "TensorFlow Lite on Raspberry Pi", link: '/Install-TensorFlow-Lite-on-RPi'}
+                    // { text: "LiteRT on Raspberry Pi", link: '/Install-LiteRT-on-RPi' },
+                    // { text: "TensorFlow Lite on Raspberry Pi", link: '/Install-TensorFlow-Lite-on-RPi'}
                 ]
             }
         ]
     },
+    ignoreDeadLinks: true,
 
     markdown: {
         image: {

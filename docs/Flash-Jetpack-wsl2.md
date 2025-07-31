@@ -1,4 +1,4 @@
-# Flash JetPack on Windows
+# Flash JetPack on Windows (WSL2)
 
 This tutorial shows a possible way of flashing JetPack on Windows using WSL2.
 
@@ -175,19 +175,54 @@ Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 The device have successfully connected to WSL.
 
-+ Do flash
++ Do flash 
 
+1. massflash (Often from Seeed's JetPack)
 ```sh
 $ sudo ./tools/kernel_flash/l4t_initrd_flash.sh --flash-only --massflash 1 --network usb0  --showlogs
 ```
 
 ::: warning
-`massflash`option has been deprecated. And make sure that you have installed the flash prerequisites.
+For using `massflash` make sure that you have installed the flash prerequisites.
 
 ```sh
 $ sudo apt install qemu-user-static sshpass abootimg nfs-kernel-server libxml2-utils binutils -y
 ```
 :::
+
+2. SDK Manager
+
+Launch your SDK Manager
+
+``` sh
+sdkmanager
+```
+
+
+3. Initrd flash command.
+
+Follow the command provided by [Flash Support](https://docs.nvidia.com/jetson/archives/r36.4.3/DeveloperGuide/SD/FlashingSupport.html).
+
+An example for Jetson Orin Nano Super Developer Kit
+
+```sh
+$ wget https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.3/release/Jetson_Linux_r36.4.3_aarch64.tbz2
+$ wget https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.3/release/Tegra_Linux_Sample-Root-Filesystem_r36.4.3_aarch64.tbz2
+
+$ tar xpf Jetson_Linux_r36.4.3_aarch64.tbz2
+
+$ sudo tar xpf Tegra_Linux_Sample-Root-Filesystem_r36.4.3_aarch64.tbz2 -C ./Linux_for_Tegra/rootfs
+
+$ sudo ./tools/l4t_flash_prerequisites.sh
+
+$ sudo ./apply_binaries.sh
+```
+
+```sh
+$ sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 \
+  -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" \
+  --showlogs --network usb0 jetson-orin-nano-devkit-super external
+```
 
 You will see that the flash process has begun:
 
