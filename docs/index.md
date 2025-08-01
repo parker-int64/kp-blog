@@ -66,8 +66,6 @@ Check here for my first blog:
 
 [Flash JetPack with WSL2](./Flash-Jetpack-wsl2.md)
 
-[Flash with PCN Merge](./Flash-with-PCN-Merge.md)
-
 [Jetson Build PyTorch](./Jetson-Build-Pytorch.md)
 
 [Jetson Build Torchvision](./Jetson-Build-Torchvision.md)
