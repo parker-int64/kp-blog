@@ -76,4 +76,6 @@ Check here for my first blog:
 
 [Jetson Build Librealsense](./Jetson-Build-Librealsense.md)
 
+[Jetson (reComputer Classic J30/J40) Use IMX219/IMX477](./Configure-reComputer-IMX219-IMX477.md)
+
 [Jetson安装中文语言包和中文输入法](./Jetson安装中文输入法.md)
