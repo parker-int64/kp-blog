@@ -214,7 +214,7 @@ Usually, if you made modifications with Jetson IO, jetson will boot with your co
 Connect the IMX219/IMX477 (MIPI CSI is not designed for hot-plugging, so please power off the device before connecting the camera, and then power it back on) and run
 
 ``` sh
-$ nvgstcapture-1.0
+$ nvgstcapture
 ```
 
 ::: info
@@ -227,6 +227,14 @@ $ sudo dmesg | grep imx
 <img class="h-auto mx-auto max-w-xl rounded-lg" src="/img/Configure-Camera/dmesg.png" />
 
 The kernel logs are helpful for troubleshooting.
+
+Also, you can use
+
+``` sh
+nvgstcapture --sensor-id <x>
+```
+
+to select which camera to open.
 
 :::
 
