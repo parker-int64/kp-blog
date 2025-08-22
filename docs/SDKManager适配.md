@@ -362,6 +362,146 @@ sdkmanager --hw-server http://127.0.0.1:8000/seeed-hwdata/sdkml1_repo_hw.json --
 已经做过的尝试：
 
 + 手动将编译出来的内核、内核模块和各种文件打包到Linux_for_Tegra/kernel目录下的debian软件包中，确保之后执行`sudo ./apply_binaries.sh`的时候会将一些自定义的模块和内核安装到rootfs中去
+
+::: info
+关于打包：NVIDIA会在Linux_for_Tegra/kernel目录下存放一些deb文件：
+
+``` sh
+$ ls ./Linux_for_Tegra/kernel/*.deb
+#nvidia-l4t-display-kernel_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+#nvidia-l4t-kernel-dtbs_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+#nvidia-l4t-kernel-headers_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+#vidia-l4t-kernel-oot-headers_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+#nvidia-l4t-kernel-oot-modules_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+#nvidia-l4t-kernel_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+```
+
+这些安装包里面有内核、内核模块、设备树、设备树overlay blob、内核头文件、OOT （out-of-tree）模块和头文件等，NVIDIA提供了一个打包脚本`nvdebrepack.sh`，在`Linux_for_Tegra/tools/Debian`目录下，
+该脚本可以基于现有的L4T软件包打包出新的debian包：可以替换、增加、更新依赖等等，具体使用说明可以参考`Debian`目录下的nvdebrepack.txt，会有相关案例。
+
+这些包会在执行`sudo ./apply_binaries.sh`的时候解压到rootfs中，之后会随着刷机制作镜像然后安装至设备中。
+
+:::
+
+提供一个重新打包`nvidia-l4t-kernel_5.15.148-tegra-36.4.3-20250107174145_arm64.deb`的案例：
+
+首先，完成编译，并且安装内核模块
+
+``` sh
+# 在source目录下
+$ export INSTALL_MOD_PATH=<Path_to_Install>
+$ export INSTALL_MOD_STRIP=--strip-unneeded
+$ mkdir -p ${INSTALL_MOD_PATH}/boot
+$ sudo ./nvbuild.sh -i -r ${INSTALL_MOD_PATH} 
+```
+
+然后进入安装位置，切换到
+
+``` sh
+$ cd ${INSTALL_MOD_PATH}/lib/modules/5.15.148-tegra/kernel
+```
+
+查找所有编译的内核模块路径，并且输出到inject文本文件：
+
+``` sh
+$ find ./ -name "*.ko" >> kernel_list.inject
+# 查看文本文件，发现会打印出所有的.ko文件和相对路径
+```
+
+修改inject文本文件，它的格式应该是（按照nvdebrepack.txt中的说明）：
+
+``` txt
+<source>:<destination>[:<permission>]
+
+即源路径:rootfs中解压路径:文件权限
+```
+
+按照此格式，将inject文件修改：
+
+``` txt
+...
+/home/kane/r36.4.3_workspace/Linux_for_Tegra/source/kernel_install/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-meson-spifc.ko:/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-meson-spifc.ko:0644
+/home/kane/r36.4.3_workspace/Linux_for_Tegra/source/kernel_install/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-bcm2835aux.ko:/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-bcm2835aux.ko:0644
+/home/kane/r36.4.3_workspace/Linux_for_Tegra/source/kernel_install/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-tegra114.ko:/lib/modules/5.15.148-tegra/kernel/drivers/spi/spi-tegra114.ko:0644
+...
+```
+
+其次，这个包还要加上内核（Image）文件，所以可以在inject文件末尾添加：
+
+``` txt
+/home/kane/r36.4.3_workspace/Linux_for_Tegra/source/kernel_install/boot/Image:/boot/Image:0644
+```
+
+最后，执行打包脚本进行打包：
+
+``` sh
+# Replace the kernel and kernel modules
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -f ./inject/kernel_list.inject \
+        -m "Add some kernel modules, with new kernel Image" \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-kernel_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+```
+
+::: info
+其它软件包可以根据其功能和结构，针对性找到想要封装或替换的文件进行打包。参考打包命令
+
+``` sh
+# Repack Display kernel
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -d nvidia-l4t-kernel=5.15.148-tegra-36.4.3-20250107174145+seeed0 \
+        -m "Update dependencies only, no modifications to modules" \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-display-kernel_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+
+
+
+# Replace Kernel dtbs
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -d nvidia-l4t-kernel=5.15.148-tegra-36.4.3-20250107174145+seeed0 \
+        -f ./inject/kernel-dtbs.inject \
+        -m "Add reComputer DTB/DTBO files." \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-kernel-dtbs_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+
+
+# Replace Kernel Headers
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -d nvidia-l4t-kernel=5.15.148-tegra-36.4.3-20250107174145+seeed0 \
+        -f ./inject/kernel-headers.inject \
+        -m "Add some extra header files" \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-kernel-headers_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+
+
+# Replace Kernel OOT (out-of-tree) Headers
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -f ./inject/oot-kernel-headers.inject \
+        -d nvidia-l4t-kernel=5.15.148-tegra-36.4.3-20250107174145+seeed0 \
+        -m "Add some extra header files" \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-kernel-oot-headers_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+
+
+# Replace Kernel OOT (out-of-tree) Modules
+./nvdebrepack.sh \
+        -v "seeed0" \
+        -f ./inject/oot-kernel-modules.inject \
+        -d nvidia-l4t-kernel=5.15.148-tegra-36.4.3-20250107174145+seeed0 \
+        -m "Add some kernel oot modules" \
+        -n "Seeed Studio <techsupport@seeed.io>" \
+        nvidia-l4t-kernel-oot-modules_5.15.148-tegra-36.4.3-20250107174145_arm64.deb
+```
+
+:::
+
+所有包打包完成后可以替换掉原kernel目录下的包，然后重新执行apply_binaries (建议准备新的rootfs)，尝试刷机。
+
 + 手动复制载板名称配置文件需要的dtb、dtsi、dtbo文件到Linux_for_Tegra/kernel/dtb文件下，确保刷机过程中不会缺少相关设备树配置文件
 + 以上操作完成后，重新打包Linux_for_Tegra目录（注意仅是BSP目录，不包含解压的rootfs），生成Jetson_Linux_{xxxx}.tbz2文件
 + 在`sdkml3_jetpack_*.json`中，更改Jetson_Linux_{xxxx}.tbz2的下载地址指向自己修改的文件地址，同时更改`md5sum`
