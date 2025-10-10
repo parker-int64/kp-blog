@@ -68,38 +68,3 @@ onMounted(async () => {
 <template>
   <div ref="placeholder" class="w-48 h-48" style="display: none;"></div>
 </template>
-
-
-
-# Hello world
-
-Check here for my first blog:
-
-[Guide](guide/getting-started.md)
-
-[Install TensorFlow Lite on Raspberry Pi](./Install-TensorFlow-Lite-on-RPi.md)
-
-[Install LiteRT on Raspberry Pi](./Install-LiteRT-on-RPi.md) 
-
-[Jetson Naming Conventions](./Jetson-Naming-Conventions.md)
-
-[Jetson Backup and Restore](./Jetson-Backup-and-Restore.md)
-
-[Flash JetPack with WSL2](./Flash-Jetpack-wsl2.md)
-
-[Jetson Build PyTorch](./Jetson-Build-Pytorch.md)
-
-[Jetson Build Torchvision](./Jetson-Build-Torchvision.md)
-
-[Jetson Build Open3D](./Jetson-Build-Open3D.md)
-
-[Jetson Build PCL (Point Cloud Library)](./Jetson-Build-PCL.md)
-
-[Jetson Build Librealsense](./Jetson-Build-Librealsense.md)
-
-[Jetson (reComputer Classic J30/J40) Use IMX219/IMX477](./Configure-reComputer-IMX219-IMX477.md)
-
-[Jetson安装中文语言包和中文输入法](./Jetson安装中文输入法.md)
-
-
-[NVIDIA SDK Manager适配](./SDKManager适配.md)
