@@ -52,7 +52,7 @@ source ~/.bashrc
 ```
 Reboot your device and use `jtop` to view current status of your jetson device:
 
-![jtop_r36.4.0_aarch64](./img/Jetson-Public/jtop_r36.4.0_aarch64.png)
+![jtop_r36.4.0_aarch64](/img/Jetson-Public/jtop_r36.4.0_aarch64.png)
 
 :::
 
@@ -111,11 +111,11 @@ sudo curl -sLOf https://raw.githubusercontent.com/Seeed-Studio/Linux_for_Tegra/b
 ```
 During the process, the script will backup all the partitions:
 
-![Backup Partitions](./img/Jetson-Backup-and-Restore/Backup_Partitions.png)
+![Backup Partitions](/img/Jetson-Backup-and-Restore/Backup_Partitions.png)
 
 Wait until the backup process complete:
 
-![Backup Complete](./img/Jetson-Backup-and-Restore/Backup_Complete.png)
+![Backup Complete](/img/Jetson-Backup-and-Restore/Backup_Complete.png)
 
 ## Restore
 
@@ -135,11 +135,11 @@ sudo ./tools/backup_restore/l4t_backup_restore.sh -e nvme0n1 -r recomputer-orin-
 
 The script will restore all the partitions:
 
-![Restore Partitions](./img/Jetson-Backup-and-Restore/Restore_Partitions.png)
+![Restore Partitions](/img/Jetson-Backup-and-Restore/Restore_Partitions.png)
 
 Again, wait until the process complete:
 
-![Restore Complete](./img/Jetson-Backup-and-Restore/Restore_Complete.png)
+![Restore Complete](/img/Jetson-Backup-and-Restore/Restore_Complete.png)
 
 
 Additionally, following cases have been tested for backup and restore:
