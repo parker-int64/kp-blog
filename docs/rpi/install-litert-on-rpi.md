@@ -27,12 +27,12 @@ Before we start, we should check if `Python` and `pip` are installed.
 ```shell
 python -V
 ```
-![check_python_ver](./img/Install-LiteRT-On-RPi/01_Check_Python_Ver.png)
+![check_python_ver](/img/Install-LiteRT-On-RPi/01_Check_Python_Ver.png)
 
 ```shell
 pip --version
 ```
-![check_pip_ver](./img/Install-LiteRT-On-RPi/02_Check_pip_Ver.png)
+![check_pip_ver](/img/Install-LiteRT-On-RPi/02_Check_pip_Ver.png)
 
 In case that you haven't install Python and pip, please execute the following command to install them.
 
@@ -46,7 +46,7 @@ Then, we create a virtual environment
 python -m venv litert_venv
 ```
 
-![setup_venv](./img/Install-LiteRT-On-RPi/03_Setup_Venv.png)
+![setup_venv](/img/Install-LiteRT-On-RPi/03_Setup_Venv.png)
 
 And activate the environment 
 

@@ -26,12 +26,12 @@ Before we start, we should check if `Python` and `pip` are installed.
 ```shell
 python -V
 ```
-![check_python_ver](./img/Install-TF-Lite-On-RPi/01_Check_Python_Ver.png)
+![check_python_ver](/img/Install-TF-Lite-On-RPi/01_Check_Python_Ver.png)
 
 ```shell
 pip --version
 ```
-![check_pip_ver](./img/Install-TF-Lite-On-RPi/02_Check_pip_Ver.png)
+![check_pip_ver](/img/Install-TF-Lite-On-RPi/02_Check_pip_Ver.png)
 
 In case that you haven't install Python and pip, please execute the following command to install them.
 
@@ -51,14 +51,14 @@ And activate the environment:
 source ./litert_venv/bin/activate
 ```
 
-![setup_venv](./img/Install-TF-Lite-On-RPi/03_Setup_Venv.png)
+![setup_venv](/img/Install-TF-Lite-On-RPi/03_Setup_Venv.png)
 
 We can install the `tflite-runtime` with pip:
 
 ```shell
 pip install tflite-runtime
 ```
-![install_tflite_runtime](./img/Install-TF-Lite-On-RPi/05_Install_TFLite_Runtime.png)
+![install_tflite_runtime](/img/Install-TF-Lite-On-RPi/05_Install_TFLite_Runtime.png)
 
 > [!NOTE] Enlarge your swap size (Optional)
 > 
@@ -109,5 +109,5 @@ Run benchmark
 ```
 And the running screenshot
 
-![benchmark_screenshot](./img/Install-TF-Lite-On-RPi/07_Benchmark_Screenshot.png)
+![benchmark_screenshot](/img/Install-TF-Lite-On-RPi/07_Benchmark_Screenshot.png)
 
